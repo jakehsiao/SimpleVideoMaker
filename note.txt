@@ -1,0 +1,31 @@
+# Day 1
+At first, I tried to combine images in seconds with videos, but I failed and I don't know why.
+
+Try combine videos at first and see how is it going on.
+
+It may be because of size of them are unmatched. Got the reason.
+
+And it is perfectly done.
+
+Then I tried to rearrange the files in order to make then ordered in wanted order. However I failed. Maybe the only way to do that is keep renaming them in order. I know that's a little bit messy but I gonna write something for that. At least some tips like hotkeys. And don't forget to add "0" in single number stuffs!
+
+That's the end of day 1. Next day, I will try to speedx the video according to the time adjusted, and make the time option flexible. Then subtitle system is adjusted, which will return a subtitle layer and a dur list for transitions.
+
+And day 3 is for combining the scrpting system and video system. First, add parameters in st in order to make the scene transtion according to the filename instead of just the indexes. For example, "OpenShot.png" stands for that image, right? Add meaningful names to the resources is important for video making process!
+
+Also, the next time, when recording the video, don't forget to seperate it. Don't record a huge one. A video contains only one process and one result.
+
+# Day 2
+The plan of today is:
+
+First, write a seperator for videos so that I can adjust the resources. Then, write the speedx part and change the function. Then, write the subtitles part. Time changing is not for today.
+
+However, is seperator really required? I think video player itself can cut the videos. Have a try at first! And actually, seperator, is required...Then write a little subclip app, write a little flag app, and combine them together! Always keep each step as small as possible.
+
+Okay, now the subclip function in argparse form is written. And speedx cannot change the fps of the original video.
+
+Then I find that using moviepy to trim the video is not the best option. In Windows there is QQMovie.In OSX there is quicktime. In Linux, there is ffmpeg! Using that I can trim the video with much better efficiency. With using "ffmpeg -ss 30 -i input.wmv -c copy -t 10 output.wmv" it works well.
+
+In video, I just skip the moviepy part and say "I need someways to preprocess the resources. In windows, there's qq movie. In linux, there's ffmpeg."
+
+
