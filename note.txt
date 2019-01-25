@@ -121,3 +121,5 @@ BGM, at least not now, okay?
 No...just implement the index method for BGM, then better index method for ST is even better.
 
 Then it is time to putting'em all together. Just put them into a python file, get res folder, a script, an audio, and start testing! That's it. After testing is finished, switch to another side!
+
+Okay...actually, BGM is not required at this stage. Really!
