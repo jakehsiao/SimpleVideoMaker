@@ -28,4 +28,96 @@ Then I find that using moviepy to trim the video is not the best option. In Wind
 
 In video, I just skip the moviepy part and say "I need someways to preprocess the resources. In windows, there's qq movie. In linux, there's ffmpeg."
 
+## Day 3
+Also in video, from beginning to the video combination part, that's all day 1. Day 2 is mainly about adding subtitles.
 
+Then the textclip part does not work. I located the problem and it may be imagemagick.
+
+然后趁着这玩意下载的时间（其实是apt-get update） 我开始查如何用python去parse命令行指令 然而 命令行指令 这玩意 叫什么啊 用英文怎么说啊 python里有没有那种输入一个string然后去call相应函数的玩意啊 就不能parse("ST --filename 'a.mov' --dur 15 18")然后输出东西吗 我擦 我查不到啊 其实吧 查不到的话 先查到所有flag和parse相关的内容 限时搜查一下有没有看起来有用的东西 然后过了限时以后 就自己手撸吧
+
+However, after imagemagick is installed, the issue is still going on, or say another issue is happened.
+
+Okay, after change the permission to "read"(even the original posted is "read|write" but for safety "read" is better) this is solved.
+
+However now it's the fonts problem.
+
+My method is to get the font from mac, "Arial Unicode", which should always be stored in my dir.
+
+Today just use English.
+
+## Day 4
+Okay today is mainly about subtitles.
+
+First, I want a way such that the subtitles can be made independently from video clips.
+
+Now it seems a little bit hard. I need to figure out the videos at first. I need to calculate each ST time, got the videos, then work on subtitles.
+This way is suck.
+
+A good subtitles should be stacked on the video.
+
+I want a way that concatenate the textclips may work.
+
+But actually it not.
+
+Composite a set of testclips on the top of video should be made on "on_color".
+
+Well...how did I make the images on track? By viewing examples? How did I learned that way and think that may work for this?
+
+I think that must be what I thought initially when I designed this! I want a subtitle layer and that can be achieved in "on_color".
+
+So make it whatever.
+
+However...insert something at somewhere, this should be always existed in moviepy. But try stacking layers at first.
+
+Work flow goes as below: first, get a set of audio segments, return the times each. Then combine them with fixed silence time, and get the subtitles, and combine them in subtitle layer in test(and seperately in final). Then input the times list and ST, return the times of scenes. Then combine the scenes, and composite with subtitle layer, then composite with voice. Get into this at first, and refractor when needed.
+
+For deployment, I feel that server is better(maybe). Or find a container solution that can be deployed.(Or...what?) Or in video I just say that "you need to build it on your own." and post that video at first then test deployments on Windows.
+
+Step by step, don't want to walk for a long distance at the beginning.
+
+Do not think about how to better expand. I need ST only at least now. So do ST only, seperate them into parts would be a good idea.
+
+Am I thinking too much when doing this, or I really got declined? Actually I believe that it is because I have some sort of perfectionism and want my code to be clean and good. Also, the pattern I am using is what I am not that familiar with.
+
+Get it done, then get it perfect.
+
+Also, design when writing, or say write when designing.
+
+Now just make the simple functions and let additional features go after this. Ijust need one command which is ST. Pack scenes into list of lists and get the sum of each time.
+
+For $Fast this is easy but for $Slow I can just seperate the audio again.
+
+Ugly code is not that ugly, get it work at first.
+
+Then, make the audio according to plan, and make the parameter "part" in scheduled_scene_transition.
+
+For audio, get the test audio at first, then read it, seperate it, and combine it, then get the dur and match it. Fast and slow are not in plan right now. After that, I should be able to get the first version of simple video maker.
+
+I feel that my pace is slowed down because of this computer. Maybe when I switch to another it is better. I don't know whether it is caused by computer itself or just my feeling.
+
+What if this computer is not mine? What if I am sure this computer has even lower radiation than my mac?
+
+But I still feel it is slowing down my rhythem.
+
+But that afternoon is quite cool!
+
+Okay, if audio does not match because of time difference, then round to .5 is required.
+
+For audio, no way has been found to directly export from pydub to moviepy. So by file.
+
+In video, indicates that "I need to make it more complicated, more easy to use, and then make it for you all to use."
+
+目前想用只能自己搭建 搭建的同时还要调一些设定 等我用它做更多的视频 把它改造得更完善 更易用 功能更强大以后 再编译成安装包给大家使用
+
+I know the English word of "get a rectangle part out of an image" as crop. Oh, that's amazing. I don't know how to get that word if I don't know the word "crop". Any methods on that? Maybe when search engine does not work, ask people. I just ask it in issue or somewhere related to moviepy, and waiting for an answer.
+
+Next, it's time to putting them all together. First, test the "subclip" and "trim" params. Then, putting them all together and try to export a full video. Then upload the videos and it is OSX's time. Make some videos, make some noise.
+
+## Day 6
+Plan today: get parameters work, get BGM work, then putting'em all together.
+
+BGM, at least not now, okay?
+
+No...just implement the index method for BGM, then better index method for ST is even better.
+
+Then it is time to putting'em all together. Just put them into a python file, get res folder, a script, an audio, and start testing! That's it. After testing is finished, switch to another side!
