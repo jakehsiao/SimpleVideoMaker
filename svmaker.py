@@ -4,7 +4,7 @@ import pydub as pdb
 
 import numpy as np
 import matplotlib.pyplot as plt
-import cv2
+#import cv2
 
 import moviepy.video.fx.all as vfx
 
@@ -38,7 +38,7 @@ def set_video_dur(origin_clip, dur, fps=25):
     clip = vfx.speedx(origin_clip, final_duration=dur).set_fps(fps)
     return clip
 
-def generate_subtitles_clip(subtitles, fontsize=40, color="white", stroke_width=1, stroke_color="black"):
+def generate_subtitles_clip(subtitles, fontsize=30, color="white", stroke_width=1, stroke_color="black"):
     '''
     params:
     * subtitles: parse script
@@ -51,7 +51,7 @@ def generate_subtitles_clip(subtitles, fontsize=40, color="white", stroke_width=
                                          color=color,
                                          stroke_color= stroke_color,
                                          stroke_width= stroke_width,
-                                         font="Helvetica", # TODO: change the font
+                                         font="ArialUnicode", # TODO: change the font
                                          fontsize=fontsize
                                         )
             text_on_color = text_content.on_color(PREVIEW_SIZE, pos=('center', 'bottom') ,col_opacity=0)
@@ -83,8 +83,15 @@ class SCommand():
                 param_name = factor[2:]
             else:
                 # Append the param
-                if factor.replace(".", "", 1).isdigit():
+                if factor.replace(".", "", 1).isdigit(): # check if it is float
                     factor = float(factor)
+                elif ":" in factor:
+                    if factor.count(":") == 1: # if hour is forgot to be written
+                        if len(factor.split(":")[0]) == 1: # if 0 is forgot to be written
+                            factor = "00:0" + factor
+                        else:
+                            factor = "00:" + factor
+
                 self.command_parsed[param_name].append(factor)
 
 class SContent():
@@ -93,6 +100,10 @@ class SContent():
         self.text = text
         self.audio = audio
         self.dur = dur # EH: adjust the dur according to audio
+
+        # EH: change a position to set the text
+        if len(self.text) > 12:
+            self.text = text[:12] + "\n" + text[12:]
 
 def parse_script(script):
     script_lines = [line for line in script.split("\n") if line]
@@ -142,11 +153,12 @@ def scheduled_time_scene_transition(schedule, resource_folder_name="res"):
     - schedule: a list of tuples of (file name, dur)
     '''
     clips = []
+    print(schedule)#DEBUG
     for res, dur, params in schedule:
         # EH: use a better way to detect the type of a file
         file_type = res[-3:]
         if file_type in ["mov", "mp4", "avi", "flv"]:
-            origin_video_clip = mpy.VideoFileClip(resource_folder_name+"/"+res)
+            origin_video_clip = mpy.VideoFileClip(os.path.join(resource_folder_name, res), audio=False)
             if params["part"]:
                 #print(params["part"])
                 parts = params["part"]
@@ -158,7 +170,7 @@ def scheduled_time_scene_transition(schedule, resource_folder_name="res"):
                 origin_video_clip = vfx.crop(origin_video_clip, w*rect[0], h*rect[1], w*rect[2], h*rect[3])
             clips.append(set_video_dur(resize_and_fit(origin_video_clip, PREVIEW_SIZE), dur))
         elif file_type in ["jpg", "png"]:
-            origin_img_clip = mpy.ImageClip(resource_folder_name+"/"+res)
+            origin_img_clip = mpy.ImageClip(os.path.join(resource_folder_name, res))
             if params["crop"]:
                 w = origin_img_clip.w
                 h = origin_img_clip.h
@@ -170,7 +182,7 @@ def scheduled_time_scene_transition(schedule, resource_folder_name="res"):
     return mpy.concatenate_videoclips(clips)
 
 def get_chunks(audio):
-    chunks = pdb.silence.split_on_silence(audio, min_silence_len=500, silence_thresh=-50, keep_silence=500)
+    chunks = pdb.silence.split_on_silence(audio.normalize(), min_silence_len=1000, silence_thresh=-50, keep_silence=250)
 
     new_chunks = []
     for chunk in chunks:
@@ -206,7 +218,7 @@ def generate_video():
         # Export to file first, then match
         match_audio(parsed_script, chunks)
 
-    # Generate subtitle
+    # Generate subtitles
     subtitle_clip = generate_subtitles_clip(parsed_script)
     print("Subtitles generated.")
 
