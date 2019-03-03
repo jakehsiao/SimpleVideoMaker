@@ -192,7 +192,7 @@ def scheduled_time_scene_transition(schedule, resource_folder_name="res"):
     return mpy.concatenate_videoclips(clips)
 
 def get_chunks(audio):
-    chunks = pdb.silence.split_on_silence(audio.normalize(), min_silence_len=1000, silence_thresh=-50, keep_silence=250)
+    chunks = pdb.silence.split_on_silence(audio.normalize(), min_silence_len=1000, silence_thresh=-40, keep_silence=250)
 
     new_chunks = []
     for chunk in chunks:
@@ -229,8 +229,6 @@ def generate_video():
         # Export to file first, then match
         match_audio(parsed_script, chunks)
     
-    # TODO: add BGM
-
     # Generate subtitles
     subtitle_clip = generate_subtitles_clip(parsed_script)
     print("Subtitles generated.")
@@ -245,10 +243,14 @@ def generate_video():
 
     # Add the audio track
     if "audio_track.wav" in os.listdir("."):
-        main_clip = main_clip.set_audio(mpy.AudioFileClip('audio_track.wav'))
+        audio_clip = mpy.AudioFileClip('audio_track.wav')
+        if "BGM.mp3" in os.listdir(".") or "BGM.flac" in os.listdir("."):
+            audio_clip = mpy.CompositeAudioClip([mpy.AudioFileClip('audio_track.wav'), mpy.AudioFileClip("BGM.mp3").volumex(0.15)])
+        main_clip = main_clip.set_audio(audio_clip.set_duration(main_clip.duration))
 
     # Write the video
     main_clip.write_videofile("output.mp4")
 
 if __name__ == "__main__":
     generate_video()
+
