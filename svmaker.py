@@ -14,8 +14,8 @@ import moviepy.video.fx.all as vfx
 import os
 
 # CONSTANTS
-PREVIEW_SIZE = (400, 300)
-PRODUCTION_SIZE = (1024, 768)
+PREVIEW_SIZE = (1280, 720)
+#PRODUCTION_SIZE = (1024, 768)
 
 def resize_and_fit(origin_clip, video_size):
     new_size = (0, 0) # init the value
@@ -38,7 +38,7 @@ def set_video_dur(origin_clip, dur, fps=25):
     clip = vfx.speedx(origin_clip, final_duration=dur).set_fps(fps)
     return clip
 
-def generate_subtitles_clip(subtitles, fontsize=30, color="white", stroke_width=1, stroke_color="black"):
+def generate_subtitles_clip(subtitles, fontsize=60, color="white", stroke_width=2, stroke_color="black"):
     '''
     params:
     * subtitles: parse script
@@ -102,7 +102,7 @@ class SContent():
         self.dur = dur # EH: adjust the dur according to audio
 
         # EH: change a position to set the text
-        if len(self.text) > 12:
+        if len(self.text) > 18:
             self.text = text[:12] + "\n" + text[12:]
 
 def parse_script(script):
@@ -178,6 +178,16 @@ def scheduled_time_scene_transition(schedule, resource_folder_name="res"):
                 #print("Crop", w, h, rect, rect[0]*w)
                 origin_img_clip = vfx.crop(origin_img_clip, w*rect[0], h*rect[1], w*rect[2], h*rect[3])
             clips.append(set_img_dur(resize_and_fit(origin_img_clip, PREVIEW_SIZE), dur))
+        elif file_type in ["txt"]:
+            print(res)
+            print(os.path.join(resource_folder_name, res))
+            origin_txt_clip = mpy.TextClip(
+                open(os.path.join(resource_folder_name, res)).read(),
+                color="white",
+                font="ArialUnicode",
+                fontsize=100
+                ).on_color(PREVIEW_SIZE).set_position("center")
+            clips.append(set_scene_dur(resize_and_fit(origin_txt_clip, PREVIEW_SIZE), dur))
             
     return mpy.concatenate_videoclips(clips)
 
@@ -214,6 +224,7 @@ def generate_video():
     if "audio.wav" in os.listdir("."):
         print("Audio detected.")
         chunks = get_chunks(pdb.AudioSegment.from_wav("audio.wav"))
+        print("Audio chunks generated.")
         sum(chunks).export("audio_track.wav", "wav")
         # Export to file first, then match
         match_audio(parsed_script, chunks)
