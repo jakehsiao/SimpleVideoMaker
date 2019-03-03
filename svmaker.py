@@ -228,6 +228,8 @@ def generate_video():
         sum(chunks).export("audio_track.wav", "wav")
         # Export to file first, then match
         match_audio(parsed_script, chunks)
+    
+    # TODO: add BGM
 
     # Generate subtitles
     subtitle_clip = generate_subtitles_clip(parsed_script)
