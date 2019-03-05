@@ -2,9 +2,9 @@ $ST Steve_Avatar.png
 大家好 我是隔壁的泰山
 $ST 22_1.jpeg
 作为一个UP主
-$ST video_edit.jpeg
+$ST video_editor.jpeg
 剪辑视频的能力是必不可少的
-然而现在主流的视频编辑器
+然而现在主流的视频编辑软件
 $ST vegas.png
 贵
 $ST finalcutpro.png
@@ -16,11 +16,11 @@ $ST maimaimai.jpeg
 我也用不了
 $ST linux.jpeg
 因为我用的系统是Linux
-$ST linux.jpeg --crop 0.4 0.05 0.75 0.4
+$ST linux.jpeg --crop 0.3 0.05 0.75 0.45
 嘿嘿
-$ST
+$ST parse.mp4 --part 16:20 18:20
 所以今天要做的 就是写一个视频编辑的程序
-这个程序和主流视频编辑程序 用法还不太一样
+这个程序和主流视频编辑器 用法还不太一样
 $ST script.png
 首先是用特殊的格式写一个稿子
 $ST res.png
@@ -31,11 +31,12 @@ $ST python.png
 再稍等一下
 $ST output.png
 热腾腾的视频就出炉了
-$ST script.png
-这个视频是根据稿子的内容生成出来的
+$ST script_2.png
+这个视频的内容是根据稿子生成出来的
 $ST point.png
 你现在正在看的这个视频
 就是用这种方法做出来的
-$ST wonder.jpg
+$ST wonder.jpg --crop 0.0 0.18 1.0 1.0
 那这样一个视频编辑器 是怎么被开发出来的呢
+$ST xiaomai.jpeg
 Here we go

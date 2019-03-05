@@ -19,7 +19,7 @@ PREVIEW_SIZE = (1280, 720)
 
 def resize_and_fit(origin_clip, video_size):
     new_size = (0, 0) # init the value
-    if origin_clip.h > origin_clip.w:
+    if origin_clip.h >= origin_clip.w: # EH: when the image is square, change it according to video size
         new_size = ((origin_clip.w * video_size[1] / origin_clip.h),video_size[1])
     else:
         new_size = ((video_size[0], origin_clip.h * video_size[0] / origin_clip.w))
@@ -156,7 +156,11 @@ def scheduled_time_scene_transition(schedule, resource_folder_name="res"):
     print(schedule)#DEBUG
     for res, dur, params in schedule:
         # EH: use a better way to detect the type of a file
-        file_type = res[-3:]
+        file_name = os.path.join(resource_folder_name, res)
+        if not os.path.exists(file_name):
+            print("File not found! {}".format(file_name))
+            raise FileNotFoundError()
+        file_type = res.split(".")[-1]
         if file_type in ["mov", "mp4", "avi", "flv"]:
             origin_video_clip = mpy.VideoFileClip(os.path.join(resource_folder_name, res), audio=False)
             if params["part"]:
@@ -169,7 +173,7 @@ def scheduled_time_scene_transition(schedule, resource_folder_name="res"):
                 rect = params["crop"]
                 origin_video_clip = vfx.crop(origin_video_clip, w*rect[0], h*rect[1], w*rect[2], h*rect[3])
             clips.append(set_video_dur(resize_and_fit(origin_video_clip, PREVIEW_SIZE), dur))
-        elif file_type in ["jpg", "png"]:
+        elif file_type in ["jpg", "png", "jpeg"]:
             origin_img_clip = mpy.ImageClip(os.path.join(resource_folder_name, res))
             if params["crop"]:
                 w = origin_img_clip.w
