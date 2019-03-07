@@ -19,7 +19,7 @@ PREVIEW_SIZE = (1280, 720)
 
 def resize_and_fit(origin_clip, video_size):
     new_size = (0, 0) # init the value
-    if origin_clip.h >= origin_clip.w: # EH: when the image is square, change it according to video size
+    if origin_clip.h / origin_clip.w > PREVIEW_SIZE[1] / PREVIEW_SIZE[0]: # EH: when the image is square, change it according to video size
         new_size = ((origin_clip.w * video_size[1] / origin_clip.h),video_size[1])
     else:
         new_size = ((video_size[0], origin_clip.h * video_size[0] / origin_clip.w))
