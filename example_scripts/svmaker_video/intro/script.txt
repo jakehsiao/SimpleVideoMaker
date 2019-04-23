@@ -4,28 +4,26 @@ $ST 22_1.jpeg
 作为一个UP主
 $ST video_editor.jpeg
 剪辑视频的能力是必不可少的
-然而现在主流的视频编辑软件
+然而现在主流的视频剪辑软件
 $ST vegas.png
 贵
 $ST finalcutpro.png
 贵
 $ST pr.png
 贵得一批
-$ST maimaimai.jpeg
-而且即使我花重金买下来
-我也用不了
-$ST linux.jpeg
-因为我用的系统是Linux
-$ST linux.jpeg --crop 0.3 0.05 0.75 0.45
-嘿嘿
 $ST parse.mp4 --part 16:20 18:20
-所以今天要做的 就是写一个视频编辑的程序
+所以今天要做的 就是写一个剪视频的程序
 这个程序和主流视频编辑器 用法还不太一样
-$ST script.png
-首先是用特殊的格式写一个稿子
 $ST res.png
-然后把视频要用到的素材
-都放进res文件夹里
+首先 把视频要用到的素材
+比如图片和视频片段
+都放进一个叫res的文件夹里
+$ST script_2.png
+然后是写一个稿子
+这个稿子有视频里要说的台词
+以及哪句话到哪句话之间 呈现什么素材
+比如我在说现在这几句话的时候
+呈现的就是一张稿子长什么样的图片
 $ST python.png
 然后只要在控制台输入一行指令
 再稍等一下
@@ -37,6 +35,6 @@ $ST point.png
 你现在正在看的这个视频
 就是用这种方法做出来的
 $ST wonder.jpg --crop 0.0 0.18 1.0 1.0
-那这样一个视频编辑器 是怎么被开发出来的呢
+那这样一个视频剪辑程序 是怎么被开发出来的呢
 $ST xiaomai.jpeg
 Here we go
